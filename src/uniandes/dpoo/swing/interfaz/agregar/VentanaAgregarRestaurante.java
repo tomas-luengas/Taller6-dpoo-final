@@ -21,12 +21,12 @@ public class VentanaAgregarRestaurante extends JFrame
     private PanelBotonesAgregar panelBotones;
 
     /**
-     * El panel para marcar la ubicación del restaurante
+     * El panel para marcar la ubicacion del restaurante
      */
     private PanelMapaAgregar panelMapa;
 
     /**
-     * La ventana principal de la aplicación
+     * La ventana principal de la aplicacion
      */
     private VentanaPrincipal ventanaPrincipal;
 
@@ -36,10 +36,16 @@ public class VentanaAgregarRestaurante extends JFrame
         setLayout( new BorderLayout( ) );
 
         // Agrega el panel donde va a estar el mapa
-        // TODO completar
+        panelMapa = new PanelMapaAgregar( );
+        add( panelMapa, BorderLayout.CENTER );
 
         // Agrega en el sur un panel para los detalles del restaurante y para los botones
-        // TODO completar
+        panelDetalles = new PanelEditarRestaurante( );
+        panelBotones = new PanelBotonesAgregar( this );
+        JPanel pSur = new JPanel( new BorderLayout( ) );
+        pSur.add( panelDetalles, BorderLayout.CENTER );
+        pSur.add( panelBotones, BorderLayout.SOUTH );
+        add( pSur, BorderLayout.SOUTH );
 
         // Termina de configurar la ventana
         pack( );
@@ -49,11 +55,17 @@ public class VentanaAgregarRestaurante extends JFrame
     }
 
     /**
-     * Le pide al panelDetalles los datos del nuevo restaurante y se los envía a la ventana principal para que cree el nuevo restaurante, y luego cierra la ventana.
+     * Le pide al panelDetalles los datos del nuevo restaurante y se los envia a la ventana principal para que cree el nuevo restaurante, y luego cierra la ventana.
      */
     public void agregarRestaurante( )
     {
-        // TODO completar
+        String nombre = panelDetalles.getNombre( );
+        int calificacion = panelDetalles.getCalificacion( );
+        boolean visitado = panelDetalles.getVisitado( );
+        int[] coords = panelMapa.getCoordenadas( );
+
+        ventanaPrincipal.agregarRestaurante( nombre, calificacion, coords[0], coords[1], visitado );
+        dispose( );
     }
 
     /**

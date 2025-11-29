@@ -11,12 +11,12 @@ import javax.swing.JPanel;
 public class PanelBotones extends JPanel implements ActionListener
 {
     /**
-     * El comando para el botón para crear un nuevo restaurante
+     * El comando para el boton para crear un nuevo restaurante
      */
     private static final String NUEVO = "nuevo";
 
     /**
-     * El comando para el botón para ver todos los restaurantes en el mapa
+     * El comando para el boton para ver todos los restaurantes en el mapa
      */
     private static final String VER = "ver";
 
@@ -30,11 +30,17 @@ public class PanelBotones extends JPanel implements ActionListener
 
         setLayout( new FlowLayout( ) );
 
-        // Agrega el botón para crear un nuevo restaurante
-        // TODO completar
+        // Agrega el boton para crear un nuevo restaurante
+        butNuevo = new JButton( "Nuevo restaurante" );
+        butNuevo.setActionCommand( NUEVO );
+        butNuevo.addActionListener( this );
+        add( butNuevo );
 
-        // Agrega el botón para ver todos los restaurantes
-        // TODO completar
+        // Agrega el boton para ver todos los restaurantes
+        butVerTodos = new JButton( "Ver en mapa" );
+        butVerTodos.setActionCommand( VER );
+        butVerTodos.addActionListener( this );
+        add( butVerTodos );
     }
 
     @Override

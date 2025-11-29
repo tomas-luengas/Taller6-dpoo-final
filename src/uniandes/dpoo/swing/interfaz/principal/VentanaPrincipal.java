@@ -34,12 +34,12 @@ public class VentanaPrincipal extends JFrame
     private PanelLista pLista;
 
     /**
-     * Una referencia a la ventana del mapa, si ya se abrió alguna vez
+     * Una referencia a la ventana del mapa, si ya se abrio alguna vez
      */
     private VentanaMapa ventanaMapa;
 
     /**
-     * Una referencia a la ventana donde se agregan restaurantes, si ya se abrió alguna vez
+     * Una referencia a la ventana donde se agregan restaurantes, si ya se abrio alguna vez
      */
     private VentanaAgregarRestaurante ventanaAgregar;
 
@@ -70,7 +70,7 @@ public class VentanaPrincipal extends JFrame
     }
 
     /**
-     * Abre la ventana para agregar un nuevo restaurante, si no está abierta ya
+     * Abre la ventana para agregar un nuevo restaurante, si no esta abierta ya
      */
     public void mostrarVetanaNuevoRestaurante( )
     {
@@ -82,30 +82,47 @@ public class VentanaPrincipal extends JFrame
     }
 
     /**
-     * Abre la ventana para mostrar el mapa de restaurante, si no está abierta ya
+     * Abre la ventana para mostrar el mapa de restaurante, si no esta abierta ya
      */
     public void mostrarVentanaMapa( )
     {
-        // TODO completar mostrarVentanaMapa
+        if( ventanaMapa == null || !ventanaMapa.isVisible( ) )
+        {
+            ventanaMapa = new VentanaMapa( this, mundo.getRestaurantes( true ) );
+            ventanaMapa.setVisible( true );
+        }
+        else
+        {
+            ventanaMapa.actualizarRestaurantes( mundo.getRestaurantes( true ) );
+            ventanaMapa.toFront( );
+        }
     }
 
     /**
-     * Agrega un nuevo restaurante al diario y actualiza la información que se muestra
+     * Agrega un nuevo restaurante al diario y actualiza la informacion que se muestra
      * @param nombre El nombre del nuevo restaurante
-     * @param calificacion La calificación del nuevo restaurante
+     * @param calificacion La calificacion del nuevo restaurante
      * @param x La coordenada X del nuevo restaurante
      * @param y La coordenada Y del nuevo restaurante
      * @param visitado Indica si el nuevo restaurante ya fue visitado o no
      */
     public void agregarRestaurante( String nombre, int calificacion, int x, int y, boolean visitado )
     {
-        // TODO completar agregarRestaurante
+        Restaurante nuevo = new Restaurante( nombre, calificacion, x, y, visitado );
+        mundo.agregarRestaurante( nuevo );
+
+        actualizarRestaurantes( );
+        pLista.seleccionarRestaurante( nuevo );
+        if( ventanaMapa != null && ventanaMapa.isVisible( ) )
+        {
+            ventanaMapa.actualizarRestaurantes( mundo.getRestaurantes( true ) );
+        }
     }
 
     /**
      * Retorna una lista de los restaurantes.
      * 
-     * Si se quieren todos los restaurantes, 'completos' debe ser verdadero. De lo contrario, se retornan sólo los visitados.
+     * Si se quieren todos los restaurantes, 'completos' debe ser verdadero. De lo contrario, se retornan solo los visitados.
      * @param completos Indica si se quieren todos los restaurantes o solo los ya visitados.
      * @return
      */
@@ -120,11 +137,22 @@ public class VentanaPrincipal extends JFrame
     private void actualizarRestaurantes( )
     {
         List<Restaurante> todos = this.mundo.getRestaurantes( true );
-        // TODO completar actualizarRestaurantes
+        pLista.actualizarRestaurantes( todos );
+
+        if( !todos.isEmpty( ) )
+        {
+            Restaurante ultimo = todos.get( todos.size( ) - 1 );
+            pLista.seleccionarRestaurante( ultimo );
+            pDetalles.actualizarRestaurante( ultimo );
+        }
+        else
+        {
+            pDetalles.actualizarRestaurante( ( Restaurante )null );
+        }
     }
 
     /**
-     * Cambia el restaurante actualmente seleccionado (y mostrado) por el que se pasa por parámetro
+     * Cambia el restaurante actualmente seleccionado (y mostrado) por el que se pasa por parametro
      * @param seleccionado
      */
     public void cambiarRestauranteSeleccionado( Restaurante seleccionado )
@@ -133,7 +161,7 @@ public class VentanaPrincipal extends JFrame
     }
 
     /**
-     * Inicia la aplicación, creando un conjunto básico de restaurantes y luego creando la interfaz de la aplicación
+     * Inicia la aplicacion, creando un conjunto basico de restaurantes y luego creando la interfaz de la aplicacion
      * @param args
      */
     public static void main( String[] args )
